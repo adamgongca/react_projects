@@ -11,26 +11,27 @@ class PostsList extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://jsonplaceholder.typicode.com/posts")
-            .then(res =>  res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        items: result,
-                    });
-                },
+        // setTimeout just in order to show "Loading..."
+        setTimeout(function () {
+            fetch("https://jsonplaceholder.typicode.com/posts")
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            isLoaded: true,
+                            items: result,
+                        });
+                    },
 
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    }
+                )
+        }.bind(this), 1000);
     }
-
-
 
     render() {
         const { error, isLoaded, items } = this.state;
@@ -47,7 +48,7 @@ class PostsList extends React.Component {
                             {items.map(item => (
                                 <article className="card" key={item.id}>
                                     <p className="cardtitle">{item.title}</p>
-                                    <hr className="cardsplit"/>
+                                    <hr className="cardsplit" />
                                     <p className="cardbody">{item.body}</p>
                                 </article>
                             ))}
@@ -57,8 +58,6 @@ class PostsList extends React.Component {
             );
         }
     }
-
-
 
 }
 
